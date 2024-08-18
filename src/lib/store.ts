@@ -1,9 +1,11 @@
+import cartReducer from "@/features/cart/service/cartSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       // task: taskReducer,
+      cartItem: cartReducer,
     },
   });
 };

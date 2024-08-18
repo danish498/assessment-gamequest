@@ -16,7 +16,7 @@ import { getAllCategories, getCategoryByProduct } from "./service";
 import { TCategoriesData, TrendingProduct } from "@/type/types";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import ProductCard from "@/components/products/product-cart";
+import ProductCard from "@/components/products/product-card";
 import ProductCardSkeleton from "@/components/loader/product-card-skeleton";
 import { helper } from "@/utils/helper";
 
@@ -102,6 +102,7 @@ const ProductList: React.FC = () => {
 
       const productSummaries: TrendingProduct[] = response.products.map(
         (product: any) => ({
+          id: product.id,
           title: product.title,
           price: product.price,
           rating: product.rating,

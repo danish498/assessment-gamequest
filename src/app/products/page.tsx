@@ -1,4 +1,4 @@
-import ProductList from "@/features/products-list/Maini";
+import ProductList from "@/features/products-list/Main";
 
 const ProductsListPage = () => {
   return (

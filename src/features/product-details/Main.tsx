@@ -20,16 +20,42 @@ import {
 } from "@/components/ui/carousel";
 import OptimizedImageWithFallback from "@/components/common/fallback-image";
 import ProductDetailsSkeleton from "@/components/loader/product-details-skeleton";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  addItem,
+  decrementItem,
+  getCurrentQuantityById,
+  incrementItem,
+} from "../cart/service/cartSlice";
 
 const ProductDetails = ({ params }: { params: { slug: string } }) => {
-  console.log({ params });
-
   const [quantity, setQuantity] = useState(1);
   const [inCart, setInCart] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleAddToCart = () => {
-    setInCart(true);
+  const [productDetailsData, setProductDetailsData] =
+    useState<TProductDetailsData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  const dispatch = useAppDispatch();
+
+  const totalItemQuantity = useAppSelector(
+    getCurrentQuantityById(Number(params.slug))
+  );
+
+  const isInCart = totalItemQuantity > 0;
+
+  const handleAddToCart = (item: TProductDetailsData) => {
+    const newItem = {
+      id: item.id,
+      name: item.title,
+      quantity: 1,
+      unitPrice: item.price,
+      totalPrice: item.price * 1,
+      image: item.images[0],
+    };
+    dispatch(addItem(newItem));
   };
 
   const handleDelete = () => {
@@ -37,35 +63,23 @@ const ProductDetails = ({ params }: { params: { slug: string } }) => {
     setQuantity(1); // Reset quantity when item is deleted
   };
 
-  const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  const handleIncrement = (id: number) => {
+    dispatch(incrementItem(id));
   };
 
-  const handleDecrement = () => {
-    if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
-    }
+  const handleDecrement = (id: number) => {
+    dispatch(decrementItem(id));
   };
 
   const handleHover = () => {
     setIsHovered(!isHovered);
   };
 
-  const [productDetailsData, setProductDetailsData] =
-    useState<TProductDetailsData>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>();
-
-  console.log({ productDetailsData });
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         const response = await getProductDetailsData(params.slug);
-
-        console.log("check response", response);
-
         const detailData: TProductDetailsData = {
           id: response.id,
           brand: response.brand,
@@ -87,12 +101,20 @@ const ProductDetails = ({ params }: { params: { slug: string } }) => {
     fetchData();
   }, [params.slug]);
 
+  if (errorMessage) {
+    return (
+      <p className="flex justify-center items-center h-screen text-2xl">
+        {errorMessage}
+      </p>
+    );
+  }
+
   if (isLoading) {
     return <ProductDetailsSkeleton />;
   }
 
-  if (errorMessage) {
-    return <p className="flex justify-center items-center h-screen text-2xl" >{errorMessage}</p>;
+  if (!productDetailsData) {
+    return null; // Render nothing if data is not available
   }
 
   return (
@@ -152,40 +174,67 @@ const ProductDetails = ({ params }: { params: { slug: string } }) => {
               <span className="font-medium text-2xl title-font">
                 ${productDetailsData?.price}
               </span>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <button
-                    onClick={handleDecrement}
-                    className="flex justify-center items-center bg-[#E58E27] hover:bg-primary px-2.5 py-1 rounded-full font-medium text-center text-sm text-white"
-                  >
-                    -
+
+              {isInCart ? (
+                <>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => handleDecrement(productDetailsData.id)}
+                        className="flex justify-center items-center bg-[#E58E27] hover:bg-primary px-2.5 py-1 rounded-full font-medium text-center text-sm text-white"
+                      >
+                        -
+                      </button>
+                      <p className="mx-2">{totalItemQuantity}</p>
+                      <button
+                        onClick={() => handleIncrement(productDetailsData.id)}
+                        className="flex justify-center items-center bg-[#E58E27] hover:bg-primary px-2.5 py-1 rounded-full font-medium text-center text-sm text-white"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button className="flex justify-center items-center bg-[#E58E27] px-3 py-1 rounded-md text-sm text-white">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="mr-2 w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                    View Cart
                   </button>
-                  <p className="mx-2">{quantity}</p>
-                  <button
-                    onClick={handleIncrement}
-                    className="flex justify-center items-center bg-[#E58E27] hover:bg-primary px-2.5 py-1 rounded-full font-medium text-center text-sm text-white"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              <button className="flex justify-center items-center bg-[#E58E27] px-3 py-1 rounded-md text-sm text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="mr-2 w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                </>
+              ) : (
+                <button
+                  className="flex justify-center items-center bg-[#E58E27] px-3 py-1 rounded-md text-sm text-white"
+                  onClick={() => handleAddToCart(productDetailsData)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                Add to Cart
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mr-2 w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  Add to Cart
+                </button>
+              )}
 
               <button
                 className={`rounded-full w-10 h-10 ${

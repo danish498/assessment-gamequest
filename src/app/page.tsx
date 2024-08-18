@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/carousel";
 import { DotButton, useDotButton } from "@/components/embla-dot-button";
 import { games } from "@/data/caresol-data";
-import ProductCard from "@/components/products/product-cart";
+import ProductCard from "@/components/products/product-card";
 import Link from "next/link";
 import { getTrendingProduct } from "@/service";
 import { TrendingProduct } from "@/type/types";

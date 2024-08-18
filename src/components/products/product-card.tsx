@@ -8,14 +8,45 @@ import OptimizedImageWithFallback from "../common/fallback-image";
 import { TrendingProduct } from "@/type/types";
 import StarRating from "./rating";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import {
+  addItem,
+  getCurrentQuantityById,
+} from "@/features/cart/service/cartSlice";
+import { useRouter } from "next/navigation";
 
 const ProductCard = ({ item }: { item: TrendingProduct }) => {
   const isFav = false;
-
   const [isHovered, setIsHovered] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const router = useRouter();
 
   const handleHover = () => {
     setIsHovered(!isHovered);
+  };
+
+  const currentQuantity = useAppSelector(getCurrentQuantityById(item.id));
+
+  console.log({ currentQuantity });
+
+  const isInCart = currentQuantity > 0;
+
+  console.log({ isInCart });
+
+  const handleByNowClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    const newItem = {
+      id: item.id,
+      name: item.title,
+      quantity: 1,
+      unitPrice: item.price,
+      totalPrice: item.price * 1,
+      image: item.image,
+    };
+
+    dispatch(addItem(newItem));
   };
 
   return (
@@ -23,11 +54,8 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
       className="relative flex flex-col border-gray-100 bg-[#fef3bc] shadow-md border rounded-lg w-full max-w-[375px] overflow-hidden"
       key={item.title}
     >
-      <Link href={`/product-details/${item.id}`}>
-        <a
-          className="relative flex mx-4 mt-3 rounded-xl h-72 overflow-hidden"
-          href="#"
-        >
+      <button onClick={() => router.push(`/product-details/${item.id}`)}>
+        <div className="relative flex mx-4 mt-3 rounded-xl h-72 overflow-hidden">
           <OptimizedImageWithFallback
             src={item.image}
             // Note--  send the empty string to check the fallback image over here
@@ -52,7 +80,7 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
               )}
             </button>
           </div>
-        </a>
+        </div>
         <div className="p-4">
           <h5 className="font-abonsi text-slate-900 text-xl tracking-tight">
             {item.title}
@@ -62,12 +90,25 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
 
           <div className="flex items-center gap-4 my-3">
             <p className="text-2xl">${item.price}</p>
-            <Button className="bg-[#E58E27] ml-auto px-6 sm:px-9 py-2 sm:py-3 rounded-full w-full">
-              By Now
-            </Button>
+
+            {isInCart ? (
+              <Button
+                className="bg-primary ml-auto px-6 sm:px-9 py-2 sm:py-3 rounded-full w-full"
+                onClick={() => router.push("/cart")}
+              >
+                View Cart
+              </Button>
+            ) : (
+              <Button
+                className="bg-[#E58E27] ml-auto px-6 sm:px-9 py-2 sm:py-3 rounded-full w-full"
+                onClick={handleByNowClick}
+              >
+                BY Now
+              </Button>
+            )}
           </div>
         </div>
-      </Link>
+      </button>
     </Card>
   );
 };

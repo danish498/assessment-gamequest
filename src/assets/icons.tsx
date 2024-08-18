@@ -32,6 +32,10 @@ import {
   type Icon as LucideIcon,
   Heart,
   LogOut,
+  CrossIcon,
+  CircleHelp,
+  Clock,
+  
 } from "lucide-react";
 
 // export type Icon = LucideIcon;
@@ -382,12 +386,12 @@ export const Icons = {
       {...props}
     >
       <circle
-       cx="21"
-       cy="21"
-       r="20.25"
-       stroke="white"
-       stroke-opacity="0.8"
-       stroke-width="1.5"
+        cx="21"
+        cy="21"
+        r="20.25"
+        stroke="white"
+        stroke-opacity="0.8"
+        stroke-width="1.5"
       />
       <g clipPath="url(#clip0_1451_443)">
         <path
@@ -457,5 +461,9 @@ export const Icons = {
   search: Search,
   heart: Heart,
   check: Check,
-  logout: LogOut
+  logout: LogOut,
+  questionMark: CircleHelp,
+  cross: CrossIcon,
+  clock: Clock,
+  x: X,
 };

@@ -19,17 +19,21 @@ import Link from "next/link";
 import MobileHeader from "./mobile-header";
 
 import "@/assets/css/mobile-header.css";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/assets/icons";
 import { profileImg } from "@/assets/image";
 import Image from "next/image";
+import { useAppSelector } from "@/lib/hooks";
+import { getTotalCardQuantity } from "@/features/cart/service/cartSlice";
 
 const Header = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [activeHoverNotification, setHoverNotification] = useState<number>();
 
-  let itemCount = 3;
+  const totalItem = useAppSelector(getTotalCardQuantity);
+
+  const router = useRouter();
   const pathname = usePathname();
 
   const handleResize = () => {
@@ -157,10 +161,12 @@ const Header = () => {
 
             <Separator orientation="vertical" />
             <div className="relative">
-              <Icons.cart />
-              {itemCount > 0 && (
+              <button onClick={() => router.push("/cart")}>
+                <Icons.cart />
+              </button>
+              {totalItem > 0 && (
                 <span className="top-0 right-0 absolute bg-red-500 px-1.5 py-0.5 rounded-full font-bold text-white text-xs">
-                  {itemCount}
+                  {totalItem}
                 </span>
               )}
             </div>
