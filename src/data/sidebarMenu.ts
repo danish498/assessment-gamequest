@@ -41,8 +41,8 @@ export const activityMenu = [
   },
   {
     icon: Icons.logout,
-    pathname: "/store-info",
-    title: "Store Info",
+    pathname: "/login",
+    title: "Log Out",
   },
 ];
 

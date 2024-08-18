@@ -1,6 +1,6 @@
 .gamemano-side-nav {
   @apply overflow-x-hidden z-20  fixed top-0 left-0 h-full border-r-2 hover:border-r-0   border-[#5b5a57]  transition-all duration-300 ease-in-out bg-background;
-  @apply 3xl:w-[225px] w-[95px] hover:w-[225px];
+  @apply w-[95px]  hover:w-[225px];
 
   .gamemano-side-menu {
     @apply flex items-center justify-start  text-black relative py-2 px-2.5 rounded-md font-normal transition-all duration-300 ease-in-out;
@@ -24,7 +24,7 @@
       }
       &:last-child {
         @apply w-0 opacity-0 group-hover:opacity-100 group-hover:w-auto group-hover:ml-1.5;
-        @apply 3xl:w-auto 3xl:opacity-100 3xl:ml-1.5;
+        /* @apply 3xl:w-auto 3xl:opacity-100 3xl:ml-1.5; */
       }
     }
   }

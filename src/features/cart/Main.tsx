@@ -29,7 +29,7 @@ const Cart = () => {
     dispatch(deleteItems(id));
   };
 
-  if (cart.length < 0) {
+  if (cart.length === 0) {
     return (
       <>
         <div className="flex flex-col justify-center items-center gap-4 mt-60">

@@ -29,11 +29,7 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
 
   const currentQuantity = useAppSelector(getCurrentQuantityById(item.id));
 
-  console.log({ currentQuantity });
-
   const isInCart = currentQuantity > 0;
-
-  console.log({ isInCart });
 
   const handleByNowClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -47,6 +43,11 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
     };
 
     dispatch(addItem(newItem));
+  };
+
+  const handleViewCart = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    router.push("/cart");
   };
 
   return (
@@ -94,7 +95,7 @@ const ProductCard = ({ item }: { item: TrendingProduct }) => {
             {isInCart ? (
               <Button
                 className="bg-primary ml-auto px-6 sm:px-9 py-2 sm:py-3 rounded-full w-full"
-                onClick={() => router.push("/cart")}
+                onClick={handleViewCart}
               >
                 View Cart
               </Button>

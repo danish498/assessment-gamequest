@@ -1,3 +1,5 @@
+import "@/assets/css/mobile-header.css";
+
 import { Icons } from "@/assets/icons";
 import React, { useState } from "react";
 import { Separator } from "../ui/separator";
@@ -15,7 +17,7 @@ const MobileHeader = () => {
 
   return (
     <>
-      <button className="border-0 " onClick={handleSideBar}>
+      <button className="border-0" onClick={handleSideBar}>
         <Icons.alignJustify color="white" />
       </button>
       {isSidebarOpen && <div className="overlay" onClick={closeSidebar}></div>}

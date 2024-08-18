@@ -1,8 +1,6 @@
 import apiClient from "@/lib/apiClient";
 
- export const getProductDetailsData = async (id: number| string) => {
-
-  console.log(id)
+export const getProductDetailsData = async (id: number | string) => {
   try {
     const response = await apiClient.get(`/products/${id}`);
 
