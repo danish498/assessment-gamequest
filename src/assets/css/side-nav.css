@@ -1,0 +1,73 @@
+.gamemano-side-nav {
+  @apply overflow-x-hidden z-20  fixed top-0 left-0 h-full border-r-2 hover:border-r-0   border-[#5b5a57]  transition-all duration-300 ease-in-out bg-background;
+  @apply 3xl:w-[225px] w-[95px] hover:w-[225px];
+
+  .gamemano-side-menu {
+    @apply flex items-center justify-start  text-black relative py-2 px-2.5 rounded-md font-normal transition-all duration-300 ease-in-out;
+
+    &.gamemano-side-menu-active {
+      @apply bg-primary text-white;
+    }
+
+    svg {
+      @apply ml-auto;
+    }
+
+    &:hover:not(.gamemano-side-menu-active):not(.gamemano-side-menu-open) {
+      @apply bg-black/10 text-black no-underline;
+    }
+
+    span {
+      @apply overflow-hidden transition-all duration-300 ease-in-out;
+      &:first-child {
+        @apply w-[22px] min-w-[22px];
+      }
+      &:last-child {
+        @apply w-0 opacity-0 group-hover:opacity-100 group-hover:w-auto group-hover:ml-1.5;
+        @apply 3xl:w-auto 3xl:opacity-100 3xl:ml-1.5;
+      }
+    }
+  }
+
+  .gamemano-side-nav-menu {
+    > ul
+      > li
+      > .gamemano-side-menu:hover:not(.gamemano-side-menu-active):not(
+        .gamemano-side-menu-open
+      ) {
+      @apply bg-black/10 text-black no-underline;
+    }
+
+    .gamemano-side-dropdown
+      > h3
+      .gamemano-side-menu:hover:not(.gamemano-side-menu-active):not(
+        .gamemano-side-menu-open
+      ) {
+      @apply bg-black/10 text-black no-underline;
+    }
+
+    .gamemano-sub-side-menu > ul > li > .gamemano-side-menu {
+      @apply text-sm text-[#000000b3] transition-all duration-300 ease-in-out;
+
+      span {
+        @apply relative before:absolute before:size-1 before:top-1/2 before:left-0 before:-translate-y-1/2 before:bg-black/10 before:rounded-full;
+
+        &:hover:not(.gamemano-side-menu-active) {
+          @apply bg-black/10 text-black;
+
+          span {
+            @apply before:bg-black;
+          }
+        }
+
+        &.gamemano-side-menu-active {
+          @apply text-primary font-medium bg-transparent;
+
+          span {
+            @apply before:bg-primary;
+          }
+        }
+      }
+    }
+  }
+}
