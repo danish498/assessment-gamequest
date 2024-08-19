@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GameQuest
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Landing Page**
+2. **Product Page**
+3. **Product Details Page**
+4. **Cart Page**  [ Add this module to incorporate the state management completely from page first to last. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Features Implemented
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Landing Page
+- Two carousels are implemented as pet the instruction.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Product Page
+- Implemented category filtering, sorting, and searching functionality.
+- By default, all categories are selected.
+  
 
-## Learn More
+#### Product Details Page
+- Product details are displayed along with an image carousel.
+- Users can view detailed information about each product.
 
-To learn more about Next.js, take a look at the following resources:
+#### Cart Page
+- State management for adding items to the cart, updating quantities, and viewing cart contents.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Sidebar and Header
+- **Sidebar**: Opens on hover with smooth transition effects.
+- **Header**: Includes cart and notification sections.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Other
+- From the landing page to the product details page, the "Add to Cart" functionality works seamlessly, updating the cart value accordingly.
+- Axios instance created for API calls
 
-## Deploy on Vercel
+## Folder Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **assets**: Contains images and custom CSS logic.
+- **pages**: Each page is organized under its respective feature folder.
+- **components**: it has UI section, a common reusable components section, and the specific folder components
+- **helpers**: Contains utility functions and other helpers.
+- **styles**: Includes different fonts and custom styling as per the Figma design.
+- **hooks**:  contain custom hooks, like useDebounce etc.
+- **type**: typescript type and instance centrally
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Installation Steps
+
+  ```bash
+
+    git clone https://github.com/danish498/assessment-gamequest
+
+    cd assessment-gamequest
+
+    yarn
+
+   yarn run dev
+    
+
+    ```
+
